@@ -14,14 +14,33 @@ class ItemDetailViewController: UIViewController {
     @IBOutlet weak var discountedPriceLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
     private let networkHandler = NetworkHandler()
-    private var itemDetail: ItemDetail?
+    private var itemDetail: ItemDetail? = nil {
+        didSet {
+            DispatchQueue.main.async {
+                self.setIntialView()
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
     }
     
-    func setIntialView() {
+    func getItemDetail(id: Int) {
+        let itemDetailAPI = ItemDetailAPI(id: id)
+        networkHandler.request(api: itemDetailAPI) { data in
+            switch data {
+            case .success(let data):
+                guard let itemDetail = try? DataDecoder.decode(data: data, dataType: ItemDetail.self) else { return }
+                self.itemDetail = itemDetail
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    private func setIntialView() {
         guard let itemDetail = itemDetail else { return }
         title = itemDetail.name
         itemNameLabel.text = itemDetail.name
