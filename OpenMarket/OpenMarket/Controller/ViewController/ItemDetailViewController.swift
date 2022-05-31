@@ -8,6 +8,7 @@
 import UIKit
 
 class ItemDetailViewController: UIViewController {
+    @IBOutlet weak var itemImageCollectionView: UICollectionView!
     @IBOutlet weak var itemNameLabel: UILabel!
     @IBOutlet weak var stockLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
@@ -42,6 +43,10 @@ class ItemDetailViewController: UIViewController {
     }
     
     private func setIntialView() {
+        itemImageCollectionView.dataSource = self
+        itemImageCollectionView.register(UINib(nibName: "\(DetailImageCell.self)", bundle: nil), forCellWithReuseIdentifier: "\(DetailImageCell.self)")
+        setCollectionViewLayout()
+        
         navigationItem.setRightBarButton(makeBarButton(), animated: true)
         guard let itemDetail = itemDetail else { return }
         
@@ -92,5 +97,35 @@ extension ItemDetailViewController {
         let barButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(touchEditButton))
         barButton.title = title
         return barButton
+    }
+}
+
+extension ItemDetailViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return itemDetail?.images.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(DetailImageCell.self)", for: indexPath) as? DetailImageCell else { return DetailImageCell() }
+        
+        cell.configureImage(url: itemDetail?.images[indexPath.row].url ?? "")
+        
+        return cell
+    }
+}
+
+extension ItemDetailViewController {
+    private func setCollectionViewLayout() {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: itemSize.widthDimension, heightDimension: itemSize.heightDimension)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
+        group.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPaging
+        
+        itemImageCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout(section: section)
     }
 }
