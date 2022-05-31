@@ -198,8 +198,8 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eyn-Co-8lN">
                                 <rect key="frame" x="16" y="44" width="382" height="852"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="BDa-0B-GlP">
-                                        <rect key="frame" x="0.0" y="0.0" width="382" height="748"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="BDa-0B-GlP">
+                                        <rect key="frame" x="0.0" y="0.0" width="382" height="758"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="8tj-RL-oLP">
                                                 <rect key="frame" x="0.0" y="0.0" width="382" height="448"/>
@@ -284,7 +284,7 @@
                                                 </constraints>
                                             </stackView>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="EZQ-DB-vtr">
-                                                <rect key="frame" x="0.0" y="448" width="382" height="300"/>
+                                                <rect key="frame" x="0.0" y="458" width="382" height="300"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="300" id="nZ0-Sa-AJa"/>
