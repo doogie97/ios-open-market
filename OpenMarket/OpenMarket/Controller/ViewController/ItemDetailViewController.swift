@@ -8,13 +8,28 @@
 import UIKit
 
 class ItemDetailViewController: UIViewController {
-
+    @IBOutlet weak var itemNameLabel: UILabel!
+    @IBOutlet weak var stockLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var discountedPriceLabel: UILabel!
+    @IBOutlet weak var descriptionTextView: UITextView!
+    private let networkHandler = NetworkHandler()
+    private var itemDetail: ItemDetail?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
     
-    func setTitle(name: String){
-        title = name
+    func setIntialView() {
+        guard let itemDetail = itemDetail else { return }
+        title = itemDetail.name
+        itemNameLabel.text = itemDetail.name
+        stockLabel.text = itemDetail.stock.description
+        priceLabel.text = itemDetail.price.description
+        discountedPriceLabel.text = itemDetail.discountedPrice.description
+        descriptionTextView.text = itemDetail.description
+        
         navigationItem.setRightBarButton(makeBarButton(), animated: true)
     }
     
