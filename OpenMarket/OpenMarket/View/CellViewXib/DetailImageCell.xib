@@ -11,14 +11,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DetailImageCell" id="5gM-xj-MDT" customClass="DetailImageCell" customModule="OpenMarket" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="111" height="114"/>
+            <rect key="frame" x="0.0" y="0.0" width="331" height="318"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="2S9-i3-Wif">
-                <rect key="frame" x="0.0" y="0.0" width="111" height="114"/>
+                <rect key="frame" x="0.0" y="0.0" width="331" height="318"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9cz-ne-UJa">
-                        <rect key="frame" x="0.0" y="0.0" width="111" height="114"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9cz-ne-UJa">
+                        <rect key="frame" x="0.0" y="0.0" width="331" height="318"/>
                     </imageView>
                 </subviews>
                 <constraints>
@@ -28,11 +28,11 @@
                     <constraint firstAttribute="bottom" secondItem="9cz-ne-UJa" secondAttribute="bottom" id="mYX-AV-LdM"/>
                 </constraints>
             </collectionViewCellContentView>
-            <size key="customSize" width="111" height="114"/>
+            <size key="customSize" width="331" height="318"/>
             <connections>
                 <outlet property="itemImageView" destination="9cz-ne-UJa" id="hdF-BF-BVn"/>
             </connections>
-            <point key="canvasLocation" x="-31.159420289855074" y="-58.928571428571423"/>
+            <point key="canvasLocation" x="128.2608695652174" y="9.375"/>
         </collectionViewCell>
     </objects>
 </document>
