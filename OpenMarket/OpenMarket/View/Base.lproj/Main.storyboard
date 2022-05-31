@@ -205,7 +205,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="450"/>
                                                 <subviews>
                                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9Pf-MF-FX0">
-                                                        <rect key="frame" x="0.0" y="0.0" width="343" height="337.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="343" height="311"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ZBU-0p-VHm">
                                                             <size key="itemSize" width="128" height="128"/>
@@ -215,6 +215,12 @@
                                                         </collectionViewFlowLayout>
                                                         <cells/>
                                                     </collectionView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v2L-w5-ftf">
+                                                        <rect key="frame" x="0.0" y="311" width="343" height="26.5"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="DTh-kU-lDH">
                                                         <rect key="frame" x="0.0" y="337.5" width="343" height="112.5"/>
                                                         <subviews>
@@ -295,6 +301,7 @@
                                 <constraints>
                                     <constraint firstItem="BDa-0B-GlP" firstAttribute="leading" secondItem="Bcx-Nn-5gO" secondAttribute="leading" id="9Yr-GJ-a20"/>
                                     <constraint firstItem="BDa-0B-GlP" firstAttribute="bottom" secondItem="Bcx-Nn-5gO" secondAttribute="bottom" id="CmF-Hs-5S1"/>
+                                    <constraint firstItem="v2L-w5-ftf" firstAttribute="height" secondItem="Eyn-Co-8lN" secondAttribute="height" multiplier="0.04" id="HJF-0z-GM9"/>
                                     <constraint firstItem="glu-b0-yLg" firstAttribute="centerX" secondItem="Eyn-Co-8lN" secondAttribute="centerX" id="SPg-iR-RQ3"/>
                                     <constraint firstItem="BDa-0B-GlP" firstAttribute="trailing" secondItem="Bcx-Nn-5gO" secondAttribute="trailing" id="bEj-OA-FYt"/>
                                     <constraint firstItem="Bcx-Nn-5gO" firstAttribute="top" secondItem="BDa-0B-GlP" secondAttribute="top" id="fDs-YT-l2g"/>
@@ -318,6 +325,7 @@
                     <connections>
                         <outlet property="descriptionTextView" destination="EZQ-DB-vtr" id="vIM-Ri-Mtc"/>
                         <outlet property="discountedPriceLabel" destination="8Zr-4U-m5k" id="EJp-pS-mCh"/>
+                        <outlet property="imageNumberLabel" destination="v2L-w5-ftf" id="LKa-Gs-O9x"/>
                         <outlet property="itemImageCollectionView" destination="9Pf-MF-FX0" id="UKG-w8-lx5"/>
                         <outlet property="itemNameLabel" destination="dIY-xW-69z" id="hWJ-ph-Pdo"/>
                         <outlet property="myActivityIndicator" destination="glu-b0-yLg" id="H8Y-Ym-wln"/>

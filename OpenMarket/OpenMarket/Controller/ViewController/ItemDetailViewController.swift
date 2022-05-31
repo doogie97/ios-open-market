@@ -9,6 +9,7 @@ import UIKit
 
 class ItemDetailViewController: UIViewController {
     @IBOutlet weak var itemImageCollectionView: UICollectionView!
+    @IBOutlet weak var imageNumberLabel: UILabel!
     @IBOutlet weak var itemNameLabel: UILabel!
     @IBOutlet weak var stockLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
@@ -44,6 +45,7 @@ class ItemDetailViewController: UIViewController {
     
     private func setIntialView() {
         itemImageCollectionView.dataSource = self
+        itemImageCollectionView.delegate = self
         itemImageCollectionView.register(UINib(nibName: "\(DetailImageCell.self)", bundle: nil), forCellWithReuseIdentifier: "\(DetailImageCell.self)")
         setCollectionViewLayout()
         
@@ -111,6 +113,12 @@ extension ItemDetailViewController: UICollectionViewDataSource {
         cell.configureImage(url: itemDetail?.images[indexPath.row].url ?? "")
         
         return cell
+    }
+}
+
+extension ItemDetailViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        imageNumberLabel.text = "\(indexPath.row + 1)/\(itemDetail?.images.count ?? 0)"
     }
 }
 
