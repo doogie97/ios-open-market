@@ -13,6 +13,8 @@ class ItemDetailViewController: UIViewController {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var discountedPriceLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var myActivityIndicator: UIActivityIndicatorView!
+    
     private let networkHandler = NetworkHandler()
     private var itemDetail: ItemDetail? = nil {
         didSet {
@@ -24,7 +26,6 @@ class ItemDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     func getItemDetail(id: Int) {
@@ -41,6 +42,7 @@ class ItemDetailViewController: UIViewController {
     }
     
     private func setIntialView() {
+        navigationItem.setRightBarButton(makeBarButton(), animated: true)
         guard let itemDetail = itemDetail else { return }
         title = itemDetail.name
         itemNameLabel.text = itemDetail.name
@@ -48,8 +50,7 @@ class ItemDetailViewController: UIViewController {
         priceLabel.text = itemDetail.price.description
         discountedPriceLabel.text = itemDetail.discountedPrice.description
         descriptionTextView.text = itemDetail.description
-        
-        navigationItem.setRightBarButton(makeBarButton(), animated: true)
+        myActivityIndicator.stopAnimating()
     }
     
     @objc private func touchEditButton() {
