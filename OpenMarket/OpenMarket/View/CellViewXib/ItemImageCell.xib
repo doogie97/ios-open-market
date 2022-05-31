@@ -18,14 +18,17 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gQF-b9-SUG">
-                        <rect key="frame" x="0.0" y="0.0" width="178" height="162"/>
+                        <rect key="frame" x="0.0" y="0.0" width="178" height="178"/>
                         <fontDescription key="fontDescription" type="system" weight="thin" pointSize="30"/>
                         <color key="textColor" red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cz3-RS-80K">
-                        <rect key="frame" x="0.0" y="0.0" width="178" height="162"/>
+                        <rect key="frame" x="0.0" y="0.0" width="178" height="178"/>
                         <color key="tintColor" red="0.15886913320000001" green="0.1646648537" blue="0.17735227589999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="cz3-RS-80K" secondAttribute="height" id="OLu-xK-LXi"/>
+                        </constraints>
                     </imageView>
                 </subviews>
                 <constraints>
