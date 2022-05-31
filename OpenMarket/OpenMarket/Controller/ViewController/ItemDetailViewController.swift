@@ -53,6 +53,7 @@ class ItemDetailViewController: UIViewController {
         guard let itemDetail = itemDetail else { return }
         
         title = itemDetail.name
+        imageNumberLabel.text = "1/\(itemDetail.images.count)"
         itemNameLabel.text = itemDetail.name
         
         if itemDetail.stock == 0 {
@@ -117,8 +118,12 @@ extension ItemDetailViewController: UICollectionViewDataSource {
 }
 
 extension ItemDetailViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        imageNumberLabel.text = "\(indexPath.row + 1)/\(itemDetail?.images.count ?? 0)"
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let visibleRect = CGRect(origin: collectionView.contentOffset, size: collectionView.bounds.size)
+        let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
+        guard let visibleIndexPath = collectionView.indexPathForItem(at: visiblePoint) else { return }
+        
+        imageNumberLabel.text = "\(visibleIndexPath.row + 1)/\(itemDetail?.images.count ?? 0)"
     }
 }
 
