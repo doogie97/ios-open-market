@@ -25,9 +25,11 @@ final class AddItemViewController: UIViewController {
     private let imagePicker = UIImagePickerController()
     private var imageArray: [UIImage] = [] {
         didSet {
-            itemImageCollectionView.reloadData()
+//            itemImageCollectionView.reloadData()
         }
     }
+    var vcType: String = "add"
+    
     private var delegate: UpdateDelegate?
     
     private var currencyType: CurrencyType = .KRW
@@ -135,6 +137,15 @@ final class AddItemViewController: UIViewController {
         delegate = target
     }
     
+    func setImageArray(itemDetail: ItemDetail?) {
+        guard let itemDetail = itemDetail else { return }
+
+        for i in itemDetail.images {
+            guard let image = ImageCacheManager.shared.getImage(key: i.url) else { return }
+            imageArray.append(image)
+        }
+    }
+    
     private func popViewController(){
         navigationController?.popViewController(animated: true)
     }
@@ -164,11 +175,11 @@ final class AddItemViewController: UIViewController {
 // MARK: - aboutCell
 extension AddItemViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if imageArray.count < maxImageCount {
-            return imageArray.count + 1
-        } else {
-            return maxImageCount
+        if vcType == "add" && imageArray.count < maxImageCount {
+                return imageArray.count + 1
         }
+        
+        return maxImageCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -176,7 +187,7 @@ extension AddItemViewController: UICollectionViewDataSource {
             return ItemImageCell()
         }
         
-        if indexPath.row == imageArray.count {
+        if indexPath.row == imageArray.count && vcType == "add" {
             cell.setPlusLabel()
         } else {
             cell.setItemImage(image: imageArray[indexPath.row])
@@ -188,7 +199,7 @@ extension AddItemViewController: UICollectionViewDataSource {
 
 extension AddItemViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if imageArray.count < maxImageCount && indexPath.row == imageArray.count {
+        if imageArray.count < maxImageCount && indexPath.row == imageArray.count && vcType == "add" {
             let alert = UIAlertController(title: "", message: "사진 추가", preferredStyle: .actionSheet)
             let albumAction = UIAlertAction(title: "앨범", style: .default){_ in
                 self.selectPhoto(where: .photoLibrary)
