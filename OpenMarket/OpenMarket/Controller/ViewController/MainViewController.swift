@@ -117,7 +117,7 @@ final class MainViewController: UIViewController {
     @IBAction func touchAddButton(_ sender: UIBarButtonItem) {
         guard let addVC = storyboard?.instantiateViewController(withIdentifier: "\(AddItemViewController.self)") as? AddItemViewController else { return }
         addVC.setDelegate(target: self)
-        addVC.setVcType(vcType: "상품 등록", itemDetail: nil)
+        addVC.setVcType(vcType: .add, itemDetail: nil)
         navigationController?.pushViewController(addVC, animated: true)
     }
 }

@@ -28,7 +28,36 @@ final class AddItemViewController: UIViewController {
             itemImageCollectionView.reloadData()
         }
     }
-    private var vcType = ""
+    
+    enum VCType {
+        case add
+        case edit
+        
+        var title: String {
+            switch self {
+            case .add:
+                return "상품 등록"
+            case .edit:
+                return "상품 수정"
+            }
+        }
+        
+        var message: String {
+            switch self {
+            case .add:
+                return "상품 등록이 완료되었습니다"
+            case .edit:
+                return "상품 수정이 완료되었습니다"
+            }
+        }
+    }
+    
+    private var vcType: VCType = .add {
+        didSet {
+            self.title = vcType.title
+        }
+    }
+
     private var itemDetail: ItemDetail?
     private var delegate: UpdateDelegate?
     private var currencyType: CurrencyType = .KRW
@@ -53,8 +82,7 @@ final class AddItemViewController: UIViewController {
         setInitialView()
     }
     
-    func setVcType(vcType: String, itemDetail: ItemDetail?) {
-        self.title = vcType
+    func setVcType(vcType: VCType, itemDetail: ItemDetail?) {
         self.vcType = vcType
         self.itemDetail = itemDetail
     }
@@ -100,7 +128,7 @@ final class AddItemViewController: UIViewController {
     }
     
     private func checkComponents() throws {
-        if imageArray.count == 0 && vcType == "상품 등록"{
+        if imageArray.count == 0 && vcType == .add{
             throw PostItemError.imageError
         }
         
@@ -149,7 +177,7 @@ final class AddItemViewController: UIViewController {
         
         let item = ItemComponents(name: name, price: price, currency: currency, discountedPrice: discountedPrice, stock: stock,  descriptions: httpDescription, imageArray: imageArray)
         
-        if vcType == "상품 등록" {
+        if vcType == .add {
             return PostItemAPI(itemComponents: item)
         } else {
             return PatchAPI(id: itemDetail?.id ?? 0, itemComponents: item)
@@ -174,15 +202,8 @@ final class AddItemViewController: UIViewController {
             networkHandler.request(api: makeComponents()) { data in
                 switch data {
                 case .success(_):
-                    var message: String {
-                        if self.vcType == "상품 등록" {
-                            return "상품 등록이 완료되었습니다"
-                        } else {
-                            return "상품 수정이 완료되었습니다"
-                        }
-                    }
                     DispatchQueue.main.async {
-                        self.showAlert(message: message) {
+                        self.showAlert(message: self.vcType.message) {
                             self.popViewController()
                             self.delegate?.upDate()
                         }
@@ -206,7 +227,7 @@ final class AddItemViewController: UIViewController {
 // MARK: - aboutCell
 extension AddItemViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if vcType == "상품 등록" {
+        if vcType == .add {
             if imageArray.count < maxImageCount {
                 return imageArray.count + 1
             } else {
@@ -223,16 +244,14 @@ extension AddItemViewController: UICollectionViewDataSource {
         }
         
         switch vcType {
-        case "상품 등록":
+        case .add:
             if indexPath.row == imageArray.count {
                 cell.setPlusLabel()
             } else {
                 cell.setItemImage(image: imageArray[indexPath.row])
             }
-        case "상품 수정":
+        case .edit:
             cell.configureImage(url: itemDetail?.images[indexPath.row].url ?? "")
-        default:
-            break
         }
         
         return cell
@@ -241,7 +260,7 @@ extension AddItemViewController: UICollectionViewDataSource {
 
 extension AddItemViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if imageArray.count < maxImageCount && indexPath.row == imageArray.count && vcType == "상품 등록" {
+        if imageArray.count < maxImageCount && indexPath.row == imageArray.count && vcType == .add {
             let alert = UIAlertController(title: "", message: "사진 추가", preferredStyle: .actionSheet)
             let albumAction = UIAlertAction(title: "앨범", style: .default){_ in
                 self.selectPhoto(where: .photoLibrary)
