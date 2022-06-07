@@ -8,4 +8,13 @@
 enum Currency: String {
     case KRW
     case USD
+    
+    var index: Int {
+        switch self {
+        case .KRW:
+            return 0
+        case .USD:
+            return 1
+        }
+    }
 }

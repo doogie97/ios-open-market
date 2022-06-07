@@ -11,6 +11,7 @@ struct ItemDetail: Codable, ItemAble {
     var name: String
     var thumbnail: String
     var currency: Currency.RawValue
+    lazy var currencyIndex: Int? = Currency(rawValue: currency)?.index
     var price: Int
     var description: String?
     var bargainPrice: Int

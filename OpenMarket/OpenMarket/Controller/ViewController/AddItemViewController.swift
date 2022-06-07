@@ -102,15 +102,13 @@ final class AddItemViewController: UIViewController {
     }
     
     private func setEditView() {
-        guard let itemDetail = itemDetail else { return }
+        guard var itemDetail = itemDetail else { return }
         self.nameTextField.text = itemDetail.name
         self.priceTextField.text = itemDetail.price.description
         self.discountedPriceTextField.text = itemDetail.discountedPrice.description
         self.stockTextField.text = itemDetail.stock.description
         self.descriptionTextView.text = itemDetail.description
-        if itemDetail.currency == "USD" {
-            self.currencySegment.selectedSegmentIndex = 1
-        }
+        self.currencySegment.selectedSegmentIndex = itemDetail.currencyIndex ?? 0
     }
     
     private func showAlert(message: String, action:(() -> ())?  ) {
