@@ -5,7 +5,7 @@
 //  Created by 두기, minseong on 2022/05/16.
 //
 
-enum HttpMethod {
+enum CustomHttpMethod {
     case get
     case post
     case delete

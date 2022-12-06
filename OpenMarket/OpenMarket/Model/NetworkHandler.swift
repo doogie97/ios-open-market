@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 struct NetworkHandler {
     private let session: URLSessionProtocol
@@ -32,7 +33,7 @@ struct NetworkHandler {
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = api.method.string
+//        request.httpMethod = api.method.string
         
         if api.method != .get {
             request.addValue("99051fa9-d1b8-11ec-9676-978c137c9bee", forHTTPHeaderField: "identifier")
@@ -115,6 +116,25 @@ struct NetworkHandler {
         request.httpBody = secretData
         
         return request
-        
     }
 }
+
+extension NetworkHandler {
+    func getRequest<T: Decodable>(api: APIable, resultType: T.Type) async throws -> T {
+        let baseURL = api.host + api.path
+        let request = AF.request(baseURL, method: api.method, parameters: api.params)
+        
+        let dataTask = request.serializingDecodable(resultType)
+        
+        switch await dataTask.result {
+        case .success(let value):
+            guard let response = await dataTask.response.response, (200...299).contains(response.statusCode) else {
+                throw APIError.responseError
+            }
+            return value
+        case .failure(_):
+            throw APIError.transportError
+        }
+    }
+}
+

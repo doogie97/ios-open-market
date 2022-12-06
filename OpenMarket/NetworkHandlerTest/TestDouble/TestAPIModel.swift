@@ -11,5 +11,5 @@ struct TestAPIModel: APIable {
     let host: String
     let path: String
     let params: [String : String]? 
-    let method: HttpMethod
+    let method: CustomHttpMethod
 }

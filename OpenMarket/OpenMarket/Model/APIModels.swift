@@ -5,12 +5,13 @@
 //  Created by 두기, minseong on 2022/05/16.
 //
 import Foundation
+import Alamofire
 
 struct HealthCheckerAPI: APIable {
     let host = "https://market-training.yagom-academy.kr/"
     let path = "healthChecker"
     let params: [String : String]? = nil
-    let method: HttpMethod = .get
+    let method: HTTPMethod = .get
     let itemComponents: ItemComponents? = nil
     let password: String? = nil
 }
@@ -24,7 +25,7 @@ struct ItemPageAPI: APIable {
         return [ "page_no" : String(pageNumber),
                  "items_per_page" : String(itemPerPage) ]
     }
-    let method: HttpMethod = .get
+    let method: HTTPMethod = .get
     let itemComponents: ItemComponents? = nil
     let password: String? = nil
 }
@@ -36,7 +37,7 @@ struct ItemDetailAPI: APIable {
         return "api/products/\(id)"
     }
     let params: [String : String]? = nil
-    let method: HttpMethod = .get
+    let method: HTTPMethod = .get
     let itemComponents: ItemComponents? = nil
     let password: String? = nil
 }
@@ -45,7 +46,7 @@ struct ItemImageAPI: APIable {
     var host: String
     var path = ""
     let params: [String : String]? = nil
-    let method: HttpMethod = .get
+    let method: HTTPMethod = .get
     let itemComponents: ItemComponents? = nil
     let password: String? = nil
 }
@@ -54,7 +55,7 @@ struct PostItemAPI: APIable {
     let host = "https://openmarket.yagom-academy.kr/"
     let path = "api/products/"
     let params: [String : String]? = nil
-    let method: HttpMethod = .post
+    let method: HTTPMethod = .post
     let itemComponents: ItemComponents?
     let password: String? = nil
 }
@@ -66,7 +67,7 @@ struct SecretAPI: APIable {
         return "api/products/\(id)/secret"
     }
     var params: [String : String]? = nil
-    var method: HttpMethod = .post
+    var method: HTTPMethod = .post
     var itemComponents: ItemComponents? = nil
     let password: String?
 }
@@ -79,7 +80,7 @@ struct DeleteAPI: APIable {
         return "api/products/\(id)/\(secret)"
     }
     let params: [String : String]? = nil
-    let method: HttpMethod = .delete
+    let method: HTTPMethod = .delete
     let itemComponents: ItemComponents? = nil
     let password: String? = nil
 }
@@ -91,7 +92,7 @@ struct PatchAPI: APIable {
         return "api/products/\(id)"
     }
     let params: [String : String]? = nil
-    let method: HttpMethod = .patch
+    let method: HTTPMethod = .patch
     var itemComponents: ItemComponents?
     let password: String? = nil
 }
