@@ -6,14 +6,15 @@
 //
 
 import UIKit
+import Alamofire
 
 final class ItemImageCell: UICollectionViewCell {
     @IBOutlet private weak var itemImageView: UIImageView!
     @IBOutlet private weak var plusLabel: UILabel!
-    private var dataTask: URLSessionDataTask?
+    private var dataTask: DataRequest?
     
     func configureImage(url: String) {
-        dataTask = itemImageView.getImge(urlString: url)
+        dataTask = itemImageView.getImage(urlString: url)
     }
     
     func setItemImage(image: UIImage) {

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 final class GridCell: UICollectionViewCell, ItemCellable {
     @IBOutlet private weak var itemImageView: UIImageView!
@@ -13,7 +14,7 @@ final class GridCell: UICollectionViewCell, ItemCellable {
     @IBOutlet private weak var priceLabel: UILabel!
     @IBOutlet private weak var bargainPriceLabel: UILabel!
     @IBOutlet private weak var stockLabel: UILabel!
-    private var dataTask: URLSessionDataTask?
+    private var dataTask: DataRequest?
     
     func configureCell(components: CellComponents) {
         itemNameLabel.text = components.name
@@ -29,7 +30,7 @@ final class GridCell: UICollectionViewCell, ItemCellable {
     }
     
     private func configureImage(urlString: String) {
-        dataTask = itemImageView.getImge(urlString: urlString)
+        dataTask = itemImageView.getImage(urlString: urlString)
     }
     
     override func prepareForReuse() {
