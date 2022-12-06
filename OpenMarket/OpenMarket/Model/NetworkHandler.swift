@@ -9,7 +9,6 @@ import Foundation
 
 struct NetworkHandler {
     private let session: URLSessionProtocol
-    private let baseURL = "https://market-training.yagom-academy.kr/"
     
     init(session: URLSessionProtocol = URLSession(configuration: .default)) {
         self.session = session
@@ -52,14 +51,16 @@ struct NetworkHandler {
         }
         
         session.receiveResponse(request: request) { responseResult in
-            guard responseResult.error == nil else {
-                return response(.failure(.transportError))
+            DispatchQueue.main.async {
+                guard responseResult.error == nil else {
+                    return response(.failure(.transportError))
+                }
+                
+                guard let statusCode = (responseResult.response as? HTTPURLResponse)?.statusCode, (200...299).contains(statusCode) else {
+                    return response(.failure(.responseError))
+                }
+                response(.success(responseResult.data))
             }
-            
-            guard let statusCode = (responseResult.response as? HTTPURLResponse)?.statusCode, (200...299).contains(statusCode) else {
-                return response(.failure(.responseError))
-            }
-            response(.success(responseResult.data))
         }
     }
     
