@@ -21,9 +21,7 @@ final class ItemDetailViewController: UIViewController {
     private var delegate: UpdateDelegate?
     private var itemDetail: ItemDetail? {
         didSet {
-            DispatchQueue.main.async {
                 self.setInitialView()
-            }
         }
     }
     private var secret: String? {
@@ -38,25 +36,26 @@ final class ItemDetailViewController: UIViewController {
     
     func getItem(id: Int) {
         let itemDetailAPI = ItemDetailAPI(id: id)
-        networkHandler.request(api: itemDetailAPI) { data in
-            switch data {
-            case .success(let data):
-                guard let itemDetail = try? DataDecoder.decode(data: data, dataType: ItemDetail.self) else {
-                    debugPrint("디코딩 오류")
-                    return
+        
+        Task {
+            do {
+                let itemDetail = try await networkHandler.getRequest(api: itemDetailAPI, resultType: ItemDetail.self)
+                await MainActor.run {
+                    self.itemDetail = itemDetail
                 }
-                self.itemDetail = itemDetail
-            case .failure(_):
+            } catch {
                 let alert = UIAlertController(title: "데이터로드 실패", message: nil, preferredStyle: .alert)
                 let yesAction = UIAlertAction(title: "확인", style: .default) {_ in
                     self.navigationController?.popViewController(animated: true)
                 }
                 alert.addAction(yesAction)
-                self.present(alert, animated: true, completion: nil)
+                await MainActor.run {
+                    self.present(alert, animated: true, completion: nil)
+                }
             }
         }
     }
-    
+
     func setDelegate(target: UpdateDelegate) {
         delegate = target
     }
