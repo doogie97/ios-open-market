@@ -41,7 +41,10 @@ final class ItemDetailViewController: UIViewController {
         networkHandler.request(api: itemDetailAPI) { data in
             switch data {
             case .success(let data):
-                guard let itemDetail = try? DataDecoder.decode(data: data, dataType: ItemDetail.self) else { return }
+                guard let itemDetail = try? DataDecoder.decode(data: data, dataType: ItemDetail.self) else {
+                    debugPrint("디코딩 오류")
+                    return
+                }
                 self.itemDetail = itemDetail
             case .failure(_):
                 let alert = UIAlertController(title: "데이터로드 실패", message: nil, preferredStyle: .alert)

@@ -60,7 +60,10 @@ final class MainViewController: UIViewController {
         networkHandler.request(api: itemPageAPI) { data in
             switch data {
             case .success(let data):
-                guard let itemPage = try? DataDecoder.decode(data: data, dataType: ItemPage.self) else { return }
+                guard let itemPage = try? DataDecoder.decode(data: data, dataType: ItemPage.self) else {
+                    debugPrint("디코딩 오류")
+                    return
+                }
                 self.items.append(contentsOf: itemPage.items)
                 self.hasNext = itemPage.hasNext
             case .failure(_):
