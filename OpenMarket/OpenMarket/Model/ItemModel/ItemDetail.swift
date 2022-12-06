@@ -26,46 +26,40 @@ struct ItemDetail: Codable, ItemAble {
         case id
         case vendorId = "vendor_id"
         case name
+        case description
         case thumbnail
         case currency
         case price
-        case description
         case bargainPrice = "bargain_price"
         case discountedPrice = "discounted_price"
         case stock
-        case createdAt = "created_at"
-        case issuedAt = "issued_at"
         case images
         case vendor = "vendors"
+        case createdAt = "created_at"
+        case issuedAt = "issued_at"
     }
     
     struct Image: Codable {
         var id: Int
         var url: String
         var thumbNailURL: String
-        var succeed: Bool
         var issuedAt: String
         
         private enum CodingKeys: String, CodingKey {
             case id
             case url
             case thumbNailURL = "thumbnail_url"
-            case succeed
             case issuedAt = "issued_at"
         }
     }
     
     struct Vendor: Codable {
-        var name: String
         var id: Int
-        var createdAt: String
-        var issuedAt: String
+        var name: String
         
         private enum CodingKeys: String, CodingKey {
-            case name
             case id
-            case createdAt = "created_at"
-            case issuedAt = "issued_at"
+            case name
         }
     }
 }
