@@ -23,7 +23,7 @@ final class AddItemViewController: UIViewController {
     @IBOutlet private weak var myScrollView: UIScrollView!
     private let networkHandler = NetworkHandler()
     private let maxImageCount = 5
-
+    
     private var imageArray: [UIImage] = [] {
         didSet {
             itemImageCollectionView.reloadData()
@@ -58,7 +58,7 @@ final class AddItemViewController: UIViewController {
             self.title = vcType.title
         }
     }
-
+    
     private var itemDetail: ItemDetail?
     private var delegate: UpdateDelegate?
     private var currencyType: CurrencyType = .KRW
@@ -87,7 +87,7 @@ final class AddItemViewController: UIViewController {
         self.vcType = vcType
         self.itemDetail = itemDetail
     }
- 
+    
     private func setInitialView() {
         navigationItem.setLeftBarButton(makeBarButton(title: "Cancel",selector: #selector(touchCancelButton)), animated: true)
         navigationItem.setRightBarButton(makeBarButton(title: "Done", selector: #selector(touchDoneButton)), animated: true)
@@ -336,14 +336,47 @@ extension AddItemViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 }
+
 extension AddItemViewController: PHPickerViewControllerDelegate {
     func showAlbum() {
         var configuration = PHPickerConfiguration()
         configuration.filter = .any(of: [.images])
-        configuration.selectionLimit = 5
+        configuration.selectionLimit = maxImageCount - imageArray.count
         
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
-        self.present(picker, animated: true)
+        
+        present(picker, animated: true)
+    }
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        self.dismiss(animated: true)
+        
+        for result in results {
+            let provider = result.itemProvider
+            
+            guard provider.canLoadObject(ofClass: UIImage.self) else {
+                return
+            }
+            
+            provider.loadObject(ofClass: UIImage.self) { item, error in
+                guard error == nil else {
+                    print(error)
+                    return
+                }
+                
+                guard let image = item as? UIImage else {
+                    return
+                }
+                
+                guard let resizedImage = image.resizeImage(kb: 300) else {
+                    return
+                }
+                
+                DispatchQueue.main.async { [weak self] in
+                    self?.imageArray.append(resizedImage)
+                }
+            }
+        }
     }
 }
