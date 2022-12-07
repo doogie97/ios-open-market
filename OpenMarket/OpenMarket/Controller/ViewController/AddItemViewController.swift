@@ -22,7 +22,7 @@ final class AddItemViewController: UIViewController {
     @IBOutlet private weak var myScrollView: UIScrollView!
     private let networkHandler = NetworkHandler()
     private let maxImageCount = 5
-    private let imagePicker = UIImagePickerController()
+
     private var imageArray: [UIImage] = [] {
         didSet {
             itemImageCollectionView.reloadData()
@@ -92,7 +92,6 @@ final class AddItemViewController: UIViewController {
         navigationItem.setRightBarButton(makeBarButton(title: "Done", selector: #selector(touchDoneButton)), animated: true)
         itemImageCollectionView.dataSource = self
         itemImageCollectionView.delegate = self
-        imagePicker.delegate = self
         itemImageCollectionView.register(UINib(nibName: "\(ItemImageCell.self)", bundle: nil), forCellWithReuseIdentifier: "\(ItemImageCell.self)")
         setSegmentTextFont()
         setLayout()
@@ -259,44 +258,11 @@ extension AddItemViewController: UICollectionViewDataSource {
 extension AddItemViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if imageArray.count < maxImageCount && indexPath.row == imageArray.count && vcType == .add {
-            let alert = UIAlertController(title: "", message: "사진 추가", preferredStyle: .actionSheet)
-            let albumAction = UIAlertAction(title: "앨범", style: .default){_ in
-                self.selectPhoto(where: .photoLibrary)
-            }
-            let cameraAction = UIAlertAction(title: "카메라", style: .default){_ in
-                if (UIImagePickerController.isSourceTypeAvailable(.camera)) {
-                    self.selectPhoto(where: .camera)
-                } else {
-                    self.showAlert(message: "카메라를 사용할 수 없습니다", action: nil)
-                }
-            }
-            let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-            alert.addAction(cameraAction)
-            alert.addAction(albumAction)
-            alert.addAction(cancelAction)
-            
-            present(alert, animated: true)
         }
     }
 }
 
 //MARK: - imagePicker
-extension AddItemViewController: UIImagePickerControllerDelegate {
-    private func selectPhoto(where: UIImagePickerController.SourceType) {
-        imagePicker.sourceType = `where`
-        imagePicker.allowsEditing = true
-        present(imagePicker, animated: true)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
-        guard let image = image?.resizeImage(kb: 300) else { return }
-        
-        imageArray.append(image)
-        dismiss(animated: true)
-    }
-}
-
 extension AddItemViewController: UINavigationControllerDelegate { }
 
 //MARK: - aboutView
