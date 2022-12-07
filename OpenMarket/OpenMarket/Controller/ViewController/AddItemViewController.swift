@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PhotosUI
 
 protocol UpdateDelegate {
     func upDate()
@@ -258,6 +259,7 @@ extension AddItemViewController: UICollectionViewDataSource {
 extension AddItemViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if imageArray.count < maxImageCount && indexPath.row == imageArray.count && vcType == .add {
+            showAlbum()
         }
     }
 }
@@ -332,5 +334,16 @@ extension AddItemViewController {
     private func addKeyboardObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+}
+extension AddItemViewController: PHPickerViewControllerDelegate {
+    func showAlbum() {
+        var configuration = PHPickerConfiguration()
+        configuration.filter = .any(of: [.images])
+        configuration.selectionLimit = 5
+        
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        self.present(picker, animated: true)
     }
 }
